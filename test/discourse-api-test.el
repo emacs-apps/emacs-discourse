@@ -90,7 +90,6 @@
          (root (discourse-api-test--object "topic_list" topic-list)))
     (should-error (discourse-api--topic-page root))))
 
-
 (ert-deftest discourse-http-authenticated-post-uses-json-and-never-retries ()
   (let ((account
          (discourse-runtime-create-authenticated-account
@@ -219,6 +218,7 @@
             "users" [] "topic_list" topic-list))))
     (should (eq user (discourse-api--current-user root)))
     (should (discourse-topic-page-can-create-topic-p page))))
+
 (provide 'discourse-api-test)
 
 ;;; discourse-api-test.el ends here

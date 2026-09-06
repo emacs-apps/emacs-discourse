@@ -44,39 +44,39 @@ were started."
          requests)
     (unless (discourse-state-categories-loaded-p state)
       (when-let* ((request
-                   (discourse-api-site-categories
-                    account
-                    (lambda (result)
-                      (if (discourse-http-result-ok-p result)
-                          (condition-case error-data
-                              (progn
-                                (discourse-state-merge-categories
-                                 state (discourse-http-result-data result))
-                                (funcall callback 'categories))
-                            (error
-                             (message
-                              "Invalid Discourse category metadata: %s"
-                              (error-message-string error-data))))
-                        (discourse-site--report-failure "category" result)))
-                    :owner owner)))
+                    (discourse-api-site-categories
+                     account
+                     (lambda (result)
+                       (if (discourse-http-result-ok-p result)
+                           (condition-case error-data
+                               (progn
+                                 (discourse-state-merge-categories
+                                  state (discourse-http-result-data result))
+                                 (funcall callback 'categories))
+                             (error
+                              (message
+                               "Invalid Discourse category metadata: %s"
+                               (error-message-string error-data))))
+                         (discourse-site--report-failure "category" result)))
+                     :owner owner)))
         (push request requests)))
     (unless (discourse-state-site-profile state)
       (when-let* ((request
-                   (discourse-api-site-profile
-                    account
-                    (lambda (result)
-                      (if (discourse-http-result-ok-p result)
-                          (condition-case error-data
-                              (progn
-                                (discourse-state-set-site-profile
-                                 state (discourse-http-result-data result))
-                                (funcall callback 'profile))
-                            (error
-                             (message
-                              "Invalid Discourse site profile: %s"
-                              (error-message-string error-data))))
-                        (discourse-site--report-failure "site" result)))
-                    :owner owner)))
+                    (discourse-api-site-profile
+                     account
+                     (lambda (result)
+                       (if (discourse-http-result-ok-p result)
+                           (condition-case error-data
+                               (progn
+                                 (discourse-state-set-site-profile
+                                  state (discourse-http-result-data result))
+                                 (funcall callback 'profile))
+                             (error
+                              (message
+                               "Invalid Discourse site profile: %s"
+                               (error-message-string error-data))))
+                         (discourse-site--report-failure "site" result)))
+                     :owner owner)))
         (push request requests)))
     (nreverse requests)))
 

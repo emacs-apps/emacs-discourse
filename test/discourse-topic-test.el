@@ -138,9 +138,7 @@
                 (prog1 (discourse-topic-retry)
                   (discourse-test-drain account)))
               (should
-               (equal '(("91" "92") ("91" "92")) (nreverse calls)))
-
-              )))
+               (equal '(("91" "92") ("91" "92")) (nreverse calls))))))
       (when (discourse-account-p account)
         (discourse-runtime-stop-account account)))))
 
@@ -312,9 +310,7 @@
               (should
                (equal "92"
                       (get-text-property (point)
-                                         discourse-topic-post-id-property)))
-
-              ))
+                                         discourse-topic-post-id-property)))))
           (should
            (string-match-p "Example Forum · t/42" (buffer-name buffer))))
       (when (discourse-account-p account)

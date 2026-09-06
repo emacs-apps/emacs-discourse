@@ -18,14 +18,14 @@
 
 (defconst discourse-markup--discard-tags
   '(script style head iframe frame frameset object embed form input textarea
-           select option button video audio source track canvas svg link meta
-           base template noscript)
+    select option button video audio source track canvas svg link meta
+    base template noscript)
   "HTML elements whose complete subtrees are not post content.")
 
 (defconst discourse-markup--block-tags
   '(address article aside blockquote details div dl fieldset figure figcaption
-            footer h1 h2 h3 h4 h5 h6 header hr li main nav ol p pre section
-            table ul)
+    footer h1 h2 h3 h4 h5 h6 header hr li main nav ol p pre section
+    table ul)
   "Elements establishing block boundaries in cooked HTML.")
 
 (cl-defstruct (discourse-markup-provider-object
@@ -596,24 +596,24 @@
   (let (rows)
     (cl-labels
         ((walk
-          (candidate current-depth)
-          (discourse-markup--tick current-depth)
-          (when (discourse-markup--element-p candidate)
-            (if (eq (car candidate) 'tr)
-                (let (cells)
-                  (dolist (child (discourse-markup--children candidate))
-                    (when (and (discourse-markup--element-p child)
-                               (memq (car child) '(th td)))
-                      (push
-                       (string-trim
-                        (discourse-markup--text-content
-                         child (1+ current-depth)))
-                       cells)))
-                  (when cells
-                    (push (string-join (nreverse cells) "\t") rows)))
-              (dolist (child (discourse-markup--children candidate))
-                (when (discourse-markup--element-p child)
-                  (walk child (1+ current-depth))))))))
+           (candidate current-depth)
+           (discourse-markup--tick current-depth)
+           (when (discourse-markup--element-p candidate)
+             (if (eq (car candidate) 'tr)
+                 (let (cells)
+                   (dolist (child (discourse-markup--children candidate))
+                     (when (and (discourse-markup--element-p child)
+                                (memq (car child) '(th td)))
+                       (push
+                        (string-trim
+                         (discourse-markup--text-content
+                          child (1+ current-depth)))
+                        cells)))
+                   (when cells
+                     (push (string-join (nreverse cells) "\t") rows)))
+               (dolist (child (discourse-markup--children candidate))
+                 (when (discourse-markup--element-p child)
+                   (walk child (1+ current-depth))))))))
       (walk node depth))
     (string-join (nreverse rows) "\n")))
 
@@ -785,10 +785,10 @@
   (let (blocks pending-inline)
     (cl-labels
         ((flush-inline
-          ()
-          (when pending-inline
-            (push (appkit-markup-paragraph pending-inline) blocks)
-            (setq pending-inline nil))))
+           ()
+           (when pending-inline
+             (push (appkit-markup-paragraph pending-inline) blocks)
+             (setq pending-inline nil))))
       (dolist (node nodes)
         (discourse-markup--tick depth)
         (cond

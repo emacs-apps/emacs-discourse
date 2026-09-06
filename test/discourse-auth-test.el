@@ -90,8 +90,6 @@
        (equal "0123456789abcdef0123456789abcdef"
               (discourse-auth-api-key account))))))
 
-
-
 (ert-deftest discourse-auth-browser-capture-returns-page-result-not-cookies ()
   (let ((directory (make-temp-file "discourse-browser-auth-" t))
         captured
@@ -125,6 +123,7 @@
                     ((appkit-app-live-p owner)))
           (appkit-app-close owner)))
       (ignore-errors (delete-directory directory t)))))
+
 (ert-deftest discourse-auth-source-round-trip-persists-identity-metadata ()
   (let* ((directory (make-temp-file "discourse-auth-source-" t))
          (file (expand-file-name "authinfo" directory))

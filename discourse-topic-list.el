@@ -780,7 +780,7 @@ preformatted relative timestamp."
   "Initialize the mounted generated SURFACE."
   (with-current-buffer (appkit-surface-buffer surface)
     (discourse-topic-list--install-scroll-observer surface)
-    
+
     (discourse-topic-list--request-site-metadata surface)
     (discourse-topic-list--request surface 'initial)))
 

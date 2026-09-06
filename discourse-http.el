@@ -55,7 +55,6 @@
   callback
   active-p)
 
-
 (defun discourse-http--endpoint-url (account endpoint parameters)
   "Return validated ACCOUNT URL for ENDPOINT and PARAMETERS."
   (unless (and (stringp endpoint)
@@ -349,17 +348,17 @@
     (error "Discourse request exceeds configured byte limit"))
   (let* ((effective-owner (or owner (discourse-account-app account)))
          (request
-          (discourse-http-request--create
-           :account account
-           :owner effective-owner
-           :method method
-           :endpoint endpoint
-           :parameters (copy-tree parameters)
-           :body (and body (copy-sequence body))
-           :retryable-p retryable-p
-           :attempt 0
-           :callback callback
-           :active-p t))
+           (discourse-http-request--create
+            :account account
+            :owner effective-owner
+            :method method
+            :endpoint endpoint
+            :parameters (copy-tree parameters)
+            :body (and body (copy-sequence body))
+            :retryable-p retryable-p
+            :attempt 0
+            :callback callback
+            :active-p t))
          (handle
           (appkit-register-handle
            effective-owner 'discourse-http request

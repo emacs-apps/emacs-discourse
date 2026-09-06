@@ -117,7 +117,7 @@ browser authorization flow even when a stored identity exists."
          (message "Discourse authorization failed: %s"
                   (or (discourse-auth-result-message result)
                       "unknown error")))))))
- 
+
 ;;;###autoload
 (defun discourse-disconnect (&optional origin)
   "Stop the anonymous application for Discourse ORIGIN."
