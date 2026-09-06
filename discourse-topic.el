@@ -1124,10 +1124,9 @@ With TOPIC-LEVEL-P, compose an unscoped reply to the topic."
   "?" #'discourse-topic-transient
   "q" #'quit-window)
 
-(define-derived-mode discourse-topic-mode special-mode "Discourse-Topic"
+(define-derived-mode discourse-topic-mode appkit-discussion-mode "Discourse-Topic"
   "Major mode for a projected Discourse topic."
-  (setq-local truncate-lines nil
-              header-line-format
+  (setq-local header-line-format
               '(:eval (discourse-topic--header-line))))
 
 (defun discourse-topic--setup (surface)
