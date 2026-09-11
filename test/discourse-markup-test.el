@@ -1,6 +1,7 @@
 ;;; discourse-markup-test.el --- Markup contracts for discourse.el -*- lexical-binding: t; -*-
 
 (require 'ert)
+(require 'appkit-markup-ui)
 (require 'cl-lib)
 (require 'seq)
 (require 'appkit-markup-ui)
@@ -56,7 +57,7 @@
       (appkit-markup-ui-insert-document
        document :final-newline-p nil :interactive-p t
        :link-action (lambda (_url) #'ignore))
-      (should (equal "Hello bold topic\none\ntwo"
+      (should (equal "Hello bold topic\n\none\ntwo"
                      (substring-no-properties (buffer-string))))
       (goto-char (point-min))
       (search-forward "one")
@@ -168,7 +169,12 @@
     (should
      (equal "Hello\nworld"
             (discourse-markup-plain-text
-             "<p>Hello<script>secret</script></p><p>world</p>")))))
+             "<p>Hello<script>secret</script></p><p>world</p>")))
+    (with-temp-buffer
+      (appkit-markup-ui-insert-document
+       (discourse-markup-parse "<p>one<br>two<br><br>three</p>") :final-newline-p nil)
+      (should (equal (buffer-substring-no-properties (point-min) (point-max))
+                     "one\ntwo\n\nthree")))))
 
 (provide 'discourse-markup-test)
 
