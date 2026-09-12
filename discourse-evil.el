@@ -59,6 +59,7 @@ When nil, leave Evil's initial-state selection untouched."
   (appkit-evil-map
     (:map discourse-topic-mode-map
      :nm
+     "g r" #'discourse-topic-refresh
      ;; Retry belongs to ZR; R is reserved for actual forwarding.
      "R" #'undefined
      "Z R" #'discourse-topic-retry
