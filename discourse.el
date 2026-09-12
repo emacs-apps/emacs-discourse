@@ -19,7 +19,6 @@
 (require 'discourse-topic-list)
 (require 'discourse-topic)
 (require 'discourse-transient)
-(require 'discourse-evil)
 
 (defconst discourse-version "0.1.0"
   "Current discourse.el package version.")
@@ -130,5 +129,8 @@ browser authorization flow even when a stored identity exists."
     (user-error "No live anonymous Discourse application for this origin")))
 
 (provide 'discourse)
+
+(with-eval-after-load 'evil
+  (require 'discourse-evil nil t))
 
 ;;; discourse.el ends here

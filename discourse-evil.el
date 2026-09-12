@@ -9,33 +9,7 @@
 ;;; Code:
 
 (require 'appkit-evil)
-(require 'discourse-customize)
-
-(declare-function discourse-topic-list-next
-                  "discourse-topic-list" ())
-(declare-function discourse-topic-list-compose-topic
-                  "discourse-topic-list" ())
-(declare-function discourse-topic-list-open-topic
-                  "discourse-topic-list" ())
-(declare-function discourse-topic-list-previous
-                  "discourse-topic-list" ())
-(declare-function discourse-topic-list-refresh
-                  "discourse-topic-list" ())
-(declare-function discourse-topic-list-transient
-                  "discourse-transient" ())
-(declare-function discourse-topic-list-retry
-                  "discourse-topic-list" ())
-(declare-function discourse-compose-submit "discourse-compose" ())
-(declare-function discourse-compose-cancel "discourse-compose" ())
-(declare-function discourse-compose-preview "discourse-compose" ())
-(declare-function discourse-topic-compose-reply "discourse-topic" ())
-(declare-function discourse-topic-open-latest "discourse-topic" ())
-(declare-function discourse-topic-jump-back "discourse-topic" ())
-(declare-function discourse-topic-retry "discourse-topic" ())
-(declare-function discourse-topic-transient "discourse-transient" ())
-(declare-function appkit-discussion-next-entry "appkit-discussion" ())
-(declare-function appkit-discussion-previous-entry "appkit-discussion" ())
-(defvar discourse-compose-mode-map)
+(require 'discourse)
 
 (defgroup discourse-evil nil
   "Optional native Evil integration for discourse.el."
