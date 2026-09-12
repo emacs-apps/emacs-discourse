@@ -3,8 +3,8 @@
 ;;; Commentary:
 
 ;; Ordinary mode maps remain the Emacs-state contract.  This adapter installs
-;; deliberate application commands in Evil state maps without replacing native
-;; motions, operators, or prefixes.
+;; deliberate application commands in Evil state maps while retaining ordinary
+;; navigation and text editing outside the documented application keys.
 
 ;;; Code:
 
@@ -29,7 +29,6 @@
 (declare-function discourse-compose-cancel "discourse-compose" ())
 (declare-function discourse-compose-preview "discourse-compose" ())
 (declare-function discourse-topic-compose-reply "discourse-topic" ())
-(declare-function discourse-topic-refresh "discourse-topic" ())
 (declare-function discourse-topic-open-latest "discourse-topic" ())
 (declare-function discourse-topic-jump-back "discourse-topic" ())
 (declare-function discourse-topic-retry "discourse-topic" ())
@@ -68,17 +67,17 @@ When nil, leave Evil's initial-state selection untouched."
   (appkit-evil-map
     (:map discourse-topic-list-mode-map
      :nm
+     "g r" #'discourse-topic-list-refresh
      "RET" #'discourse-topic-list-open-topic
      "<return>" #'discourse-topic-list-open-topic
-     "g r" #'discourse-topic-list-refresh
-     "g R" #'discourse-topic-list-retry
+     "Z R" #'discourse-topic-list-retry
      "g j" #'discourse-topic-list-next
      "g k" #'discourse-topic-list-previous
      "?" #'discourse-topic-list-transient))
   (appkit-evil-map
     (:map discourse-topic-list-mode-map
      :nm
-     "g c" #'discourse-topic-list-compose-topic)))
+     "c" #'discourse-topic-list-compose-topic)))
 
 (defun discourse-evil--define-topic-keys ()
   "Install modal bindings for Discourse topic streams."
@@ -86,8 +85,9 @@ When nil, leave Evil's initial-state selection untouched."
   (appkit-evil-map
     (:map discourse-topic-mode-map
      :nm
-     "g r" #'discourse-topic-refresh
-     "g R" #'discourse-topic-retry
+     ;; Retry belongs to ZR; R is reserved for actual forwarding.
+     "R" #'undefined
+     "Z R" #'discourse-topic-retry
      "g b" #'discourse-topic-open-latest
      "g j" #'appkit-discussion-next-entry
      "g l" #'discourse-topic-jump-back
@@ -96,7 +96,7 @@ When nil, leave Evil's initial-state selection untouched."
   (appkit-evil-map
     (:map discourse-topic-mode-map
      :nm
-     "g c" #'discourse-topic-compose-reply)))
+     "r" #'discourse-topic-compose-reply)))
 
 (defun discourse-evil--define-compose-keys ()
   "Install modal bindings for editable Discourse compose buffers."
@@ -128,6 +128,14 @@ Safe to call multiple times and before Evil is loaded."
 
 (with-eval-after-load 'evil
   (discourse-evil-setup))
+
+(with-eval-after-load 'evil-snipe
+  (dolist (mode (append discourse-evil--application-modes
+                        '(discourse-compose-mode)))
+    (add-hook (intern (concat (symbol-name mode) "-hook"))
+              #'turn-off-evil-snipe-mode)
+    (add-hook (intern (concat (symbol-name mode) "-hook"))
+              #'turn-off-evil-snipe-override-mode)))
 
 (provide 'discourse-evil)
 
