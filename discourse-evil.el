@@ -39,48 +39,48 @@ When nil, leave Evil's initial-state selection untouched."
   "Install modal bindings for Discourse topic lists."
   (appkit-evil-define-readonly-keys 'discourse-topic-list-mode-map)
   (appkit-evil-map
-    (:map discourse-topic-list-mode-map
-     :nm
-     "g r" #'discourse-topic-list-refresh
-     "RET" #'discourse-topic-list-open-topic
-     "<return>" #'discourse-topic-list-open-topic
-     "Z R" #'discourse-topic-list-retry
-     "g j" #'discourse-topic-list-next
-     "g k" #'discourse-topic-list-previous
-     "?" #'discourse-topic-list-transient))
+    :map discourse-topic-list-mode-map
+    :nm
+    "g r" #'discourse-topic-list-refresh
+    "RET" #'discourse-topic-list-open-topic
+    "<return>" #'discourse-topic-list-open-topic
+    "Z R" #'discourse-topic-list-retry
+    "g j" #'discourse-topic-list-next
+    "g k" #'discourse-topic-list-previous
+    "?" #'discourse-topic-list-transient)
   (appkit-evil-map
-    (:map discourse-topic-list-mode-map
-     :nm
-     "c" #'discourse-topic-list-compose-topic)))
+    :map discourse-topic-list-mode-map
+    :nm
+    "c" #'discourse-topic-list-compose-topic))
 
 (defun discourse-evil--define-topic-keys ()
   "Install modal bindings for Discourse topic streams."
   (appkit-evil-define-readonly-keys 'discourse-topic-mode-map)
   (appkit-evil-map
-    (:map discourse-topic-mode-map
-     :nm
-     "g r" #'discourse-topic-refresh
-     ;; Retry belongs to ZR; R is reserved for actual forwarding.
-     "R" #'undefined
-     "Z R" #'discourse-topic-retry
-     "g b" #'discourse-topic-open-latest
-     "g j" #'appkit-discussion-next-entry
-     "g l" #'discourse-topic-jump-back
-     "g k" #'appkit-discussion-previous-entry
-     "?" #'discourse-topic-transient))
+    :map discourse-topic-mode-map
+    :nm
+    "g r" #'discourse-topic-refresh
+    ;; Retry belongs to ZR; R is reserved for actual forwarding.
+    "R" #'undefined
+    "Z R" #'discourse-topic-retry
+    "g b" #'discourse-topic-open-latest
+    "g j" #'appkit-discussion-next-entry
+    "g l" #'discourse-topic-jump-back
+    "g k" #'appkit-discussion-previous-entry
+    "?" #'discourse-topic-transient)
   (appkit-evil-map
-    (:map discourse-topic-mode-map
-     :nm
-     "r" #'discourse-topic-compose-reply)))
+    :map discourse-topic-mode-map
+    :nm
+    "r" #'discourse-topic-compose-reply))
 
 (defun discourse-evil--define-compose-keys ()
   "Install modal bindings for editable Discourse compose buffers."
   (appkit-evil-map
-    (:map discourse-compose-mode-map
-     :nmi
-     "C-c C-c" #'discourse-compose-submit
-     "C-c C-k" #'discourse-compose-cancel
-     "C-c C-p" #'discourse-compose-preview)))
+    :map discourse-compose-mode-map
+    :nmi
+    "C-c C-c" #'discourse-compose-submit
+    "C-c C-k" #'discourse-compose-cancel
+    "C-c C-p" #'discourse-compose-preview))
 
 ;;;###autoload
 (defun discourse-evil-setup ()
