@@ -75,10 +75,11 @@
                                            (vector latest-poster)
                                            "tags" []))
        (page
-        (discourse-topic-page-create :topics (list first second)
-                                     :users
-                                     (list original-user latest-user)
-                                     :more-url nil))
+        (discourse-topic-page-create
+         :topics (list first second)
+         :users
+         (list original-user latest-user)
+         :more-url nil))
        (account
         (discourse-runtime-create-account "https://example.test"))
        buffer)
@@ -88,20 +89,24 @@
              ((symbol-function 'discourse-api-topic-page)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       page))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data page))
                 nil))
              ((symbol-function 'discourse-api-site-categories)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       (list category)))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data
+                          (list category)))
                 nil))
              ((symbol-function 'discourse-api-site-profile)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       profile))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data profile))
                 nil))
              ((symbol-function 'appkit-surface-responsive-width)
               (lambda (&rest _arguments)
@@ -177,7 +182,8 @@
                 (prog1
                     (appkit-surface-send view
                                          (appkit-projection-change-create
-                                          :full-p t :frame-p t))
+                                          :full-p t
+                                          :frame-p t))
                   (discourse-test-drain account))
                 (should
                  (equal text
@@ -255,30 +261,38 @@
         (discourse-topic-list-test--object "id" 5 "name" "General"
                                            "permission" 1))
        (page
-        (discourse-topic-page-create :topics nil :users nil :more-url
-                                     nil :can-create-topic-p t))
+        (discourse-topic-page-create
+         :topics nil
+         :users nil
+         :more-url nil
+         :can-create-topic-p t))
        buffer composed)
     (unwind-protect
         (cl-letf
             (((symbol-function 'discourse-api-topic-page)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       page))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data page))
                 nil))
              ((symbol-function 'discourse-api-site-categories)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       (list category)))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data
+                          (list category)))
                 nil))
              ((symbol-function 'discourse-api-site-profile)
               (lambda (_account callback &rest _arguments)
                 (funcall callback
-                         (discourse-http-result-create :ok-p t :data
-                                                       (discourse-topic-list-test--object
-                                                        "title"
-                                                        "Example Forum")))
+                         (discourse-http-result-create
+                          :ok-p t
+                          :data
+                          (discourse-topic-list-test--object
+                           "title"
+                           "Example Forum")))
                 nil))
              ((symbol-function 'discourse-compose-new-topic)
               (lambda (sent-account &rest options)
@@ -328,10 +342,13 @@
                  (state (appkit-surface-model surface))
                  (first (car requests))
                  (result
-                  (discourse-http-result-create :ok-p t :data
-                                                (discourse-topic-page-create
-                                                 :topics nil :users
-                                                 nil :more-url nil))))
+                  (discourse-http-result-create
+                   :ok-p t
+                   :data
+                   (discourse-topic-page-create
+                    :topics nil
+                    :users nil
+                    :more-url nil))))
               (prog1 (discourse-topic-list-refresh)
                 (discourse-test-drain account))
               (let ((second (car requests)))

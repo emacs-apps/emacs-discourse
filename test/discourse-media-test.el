@@ -30,14 +30,17 @@
   "Return a real projected KEY retaining non-nil image DEMANDS."
   (setq demands (delq nil demands))
   (appkit-projection-row-create
-   :key key :payload key :resource-demands demands
+   :key key
+   :payload key
+   :resource-demands demands
    :dependencies (mapcar #'appkit-resource-demand-key demands)))
 
 (defun discourse-media-test--surface (account identity project printer)
   "Mount ACCOUNT IDENTITY with real Resource-projecting PROJECT and PRINTER."
   (appkit-open-generated-surface
    (appkit-surface-type-create
-    :name 'discourse-media-test :mode #'special-mode
+    :name 'discourse-media-test
+    :mode #'special-mode
     :init #'discourse-runtime--surface-init
     :update #'discourse-runtime--surface-update
     :renderer-factory
@@ -47,7 +50,8 @@
        :printer (lambda (_surface _app row)
                   (when printer (funcall printer (appkit-projection-row-key row)))
                   (insert (appkit-projection-row-key row) "\n")))))
-   :app (discourse-account-app account) :identity identity))
+   :app (discourse-account-app account)
+   :identity identity))
 
 (ert-deftest discourse-media-deduplicates-account-owned-avatar-transfer ()
   (let* ((account (discourse-runtime-create-account "https://example.test"))

@@ -383,7 +383,9 @@
   "Issue an idempotent JSON GET for ACCOUNT ENDPOINT."
   (discourse-http--request
    account 'get endpoint callback
-   :parameters parameters :owner owner :retryable-p t))
+   :parameters parameters
+   :owner owner
+   :retryable-p t))
 
 (cl-defun discourse-http-post-json
     (account endpoint data callback &key parameters owner)

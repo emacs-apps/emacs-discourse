@@ -25,10 +25,10 @@
   "Initial Evil state for discourse.el application buffers.
 When nil, leave Evil's initial-state selection untouched."
   :type '(choice (const :tag "Don't override" nil)
-          (const :tag "Normal" normal)
-          (const :tag "Motion" motion)
-          (const :tag "Emacs" emacs)
-          (symbol :tag "Custom state"))
+                 (const :tag "Normal" normal)
+                 (const :tag "Motion" motion)
+                 (const :tag "Emacs" emacs)
+                 (symbol :tag "Custom state"))
   :group 'discourse-evil)
 
 (defconst discourse-evil--application-modes

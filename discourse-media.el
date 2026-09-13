@@ -132,7 +132,8 @@
               :input
               (appkit-media-image-acquisition-create
                (appkit-media-resource-create
-                :url url :name (or (appkit-media-url-filename url) "image"))
+                :url url
+                :name (or (appkit-media-url-filename url) "image"))
                (expand-file-name
                 (md5 (md5 (prin1-to-string
                            (list (discourse-account-origin account) url))))
@@ -146,7 +147,8 @@
        (discourse-topic--set-media-state model 'ready file nil)
        (setq effect
              (appkit-effect-create
-              :key 'discourse-image-open :input file
+              :key 'discourse-image-open
+              :input file
               :start #'appkit-media-file-presentation-start
               :success (lambda (_input _result) '(media-presented))
               :failure (lambda (_input reason) (list 'media-failed reason))
@@ -157,12 +159,14 @@
       (`(media-failed ,reason)
        (discourse-topic--set-media-state
         model 'error (discourse-topic-state-media-file model) reason)))
-    (appkit-next :model model :render
-                 (if (memq (car-safe message)
-                           '(media-open media-acquired media-presented media-failed))
-                     (appkit-projection-change-create :frame-p t)
-                   appkit-render-none)
-                 :commands (and effect (list (appkit-command-start-effect effect))))))
+    (appkit-next
+     :model model
+     :render
+     (if (memq (car-safe message)
+               '(media-open media-acquired media-presented media-failed))
+         (appkit-projection-change-create :frame-p t)
+       appkit-render-none)
+     :commands (and effect (list (appkit-command-start-effect effect))))))
 
 (defun discourse-media--demand (key url base)
   "Declare private image KEY at URL with persistent cache BASE."
@@ -170,8 +174,10 @@
    :key key
    :input (appkit-media-image-acquisition-create
            (appkit-media-resource-create
-            :url url :name (or (appkit-media-url-filename url) "image.img"))
-           base :headers appkit-media-image-accept-headers)
+            :url url
+            :name (or (appkit-media-url-filename url) "image.img"))
+           base
+           :headers appkit-media-image-accept-headers)
    :loader #'appkit-media-image-resource-load
    :acquisition-identity (list 'discourse-image key url)
    :sharing-policy 'app-private

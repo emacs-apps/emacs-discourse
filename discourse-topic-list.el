@@ -367,7 +367,8 @@ preformatted relative timestamp."
                                     (discourse-media-avatar-demand account (cadr dependency)))
                                   dependencies))))
          (appkit-projection-row-create
-          :key (discourse-topic-list--id topic) :payload topic
+          :key (discourse-topic-list--id topic)
+          :payload topic
           :dependencies (append dependencies (mapcar #'appkit-resource-demand-key demands))
           :resource-demands demands)))
      (discourse-topic-list-state-topics state))))
@@ -516,21 +517,22 @@ preformatted relative timestamp."
                                           (if (eq phase 'initial) 'first
                                             'preserve)))
         (discourse-runtime--post-surface view
-                                         (appkit-projection-change-create :full-p
-                                                                          t
-                                                                          :frame-p
-                                                                          t))
+                                         (appkit-projection-change-create
+                                          :full-p t
+                                          :frame-p t))
         (unless (eq phase 'older)
           (message "Loaded %d Discourse topics" (length topics))))
     (error
      (let
          ((result
-           (discourse-http-result-create :ok-p nil :failure
-                                         (discourse-http-failure-create
-                                          :kind 'invalid-response
-                                          :message
-                                          (error-message-string
-                                           error-data)))))
+           (discourse-http-result-create
+            :ok-p nil
+            :failure
+            (discourse-http-failure-create
+             :kind 'invalid-response
+             :message
+             (error-message-string
+              error-data)))))
        (discourse-topic-list--handle-error view state phase endpoint
                                            result)))))
 
@@ -562,10 +564,8 @@ preformatted relative timestamp."
                                           ('categories
                                            (discourse-runtime--post-surface view
                                                                             (appkit-projection-change-create
-                                                                             :full-p
-                                                                             t
-                                                                             :geometry-p
-                                                                             t)))
+                                                                             :full-p t
+                                                                             :geometry-p t)))
                                           ('profile
                                            (discourse-topic-list--update-buffer-name
                                             view
@@ -573,8 +573,7 @@ preformatted relative timestamp."
                                              domain-state))
                                            (discourse-runtime--post-surface view
                                                                             (appkit-projection-change-create
-                                                                             :frame-p
-                                                                             t))))))
+                                                                             :frame-p t))))))
                                     :owner view)))
 
 (defun discourse-topic-list--request
@@ -606,7 +605,8 @@ preformatted relative timestamp."
                                          (discourse-api-topic-page
                                           (discourse-topic-list-state-account
                                            state)
-                                          resolve :endpoint endpoint
+                                          resolve
+                                          :endpoint endpoint
                                           :owner view))
                                        (lambda (result)
                                          (if
@@ -794,10 +794,14 @@ preformatted relative timestamp."
          (surface
           (or existing
               (appkit-open-generated-surface
-               discourse-topic-list--surface-type :app app :identity '(topics latest)
+               discourse-topic-list--surface-type
+               :app app
+               :identity '(topics latest)
                :buffer-name (format "*Discourse: %s · Latest*" (discourse-account-origin account))
                :input (discourse-topic-list-state-create
-                       :account account :topics nil :phase 'initial)))))
+                       :account account
+                       :topics nil
+                       :phase 'initial)))))
     (unless existing (discourse-topic-list--setup surface))
     (when select (pop-to-buffer (appkit-surface-buffer surface)))
     (appkit-surface-buffer surface)))
@@ -825,7 +829,8 @@ preformatted relative timestamp."
 
 (defconst discourse-topic-list--surface-type
   (appkit-surface-type-create
-   :name 'discourse-topic-list :mode #'discourse-topic-list-mode
+   :name 'discourse-topic-list
+   :mode #'discourse-topic-list-mode
    :init #'discourse-runtime--surface-init
    :update #'discourse-runtime--surface-update
    :renderer-factory #'discourse-topic-list--renderer))

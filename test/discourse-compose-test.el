@@ -154,7 +154,8 @@
               :status 200
               :data
               (discourse-created-post-create
-               :outcome 'posted :post post))))
+               :outcome 'posted
+               :post post))))
           (should-not (buffer-live-p buffer))
           (should (equal (list account "42" t 3) opened))
           (should
@@ -204,14 +205,18 @@
           :status 422
           :failure
           (discourse-http-failure-create
-           :kind 'http :status 422 :message "invalid")))
+           :kind 'http
+           :status 422
+           :message "invalid")))
         (unknown
          (discourse-http-result-create
           :ok-p nil
           :status 200
           :failure
           (discourse-http-failure-create
-           :kind 'invalid-response :status 200 :message "bad response"))))
+           :kind 'invalid-response
+           :status 200
+           :message "bad response"))))
     (should-not (discourse-compose--unknown-result-p rejected))
     (should (discourse-compose--unknown-result-p unknown))))
 

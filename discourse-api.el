@@ -155,7 +155,9 @@
           (discourse-api--objects
            (gethash "posts" post-stream) "post")))
     (discourse-topic-snapshot-create
-     :topic topic :stream stream :posts posts)))
+     :topic topic
+     :stream stream
+     :posts posts)))
 
 (defun discourse-api--post-page (data)
   "Validate DATA as a topic post page."

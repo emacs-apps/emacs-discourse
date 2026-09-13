@@ -55,7 +55,9 @@
                    (appkit-markup-plain-text document)))
     (with-temp-buffer
       (appkit-markup-ui-insert-document
-       document :final-newline-p nil :interactive-p t
+       document
+       :final-newline-p nil
+       :interactive-p t
        :link-action (lambda (_url) #'ignore))
       (should (equal "Hello bold topic\n\none\ntwo"
                      (substring-no-properties (buffer-string))))
@@ -172,7 +174,8 @@
              "<p>Hello<script>secret</script></p><p>world</p>")))
     (with-temp-buffer
       (appkit-markup-ui-insert-document
-       (discourse-markup-parse "<p>one<br>two<br><br>three</p>") :final-newline-p nil)
+       (discourse-markup-parse "<p>one<br>two<br><br>three</p>")
+       :final-newline-p nil)
       (should (equal (buffer-substring-no-properties (point-min) (point-max))
                      "one\ntwo\n\nthree")))))
 

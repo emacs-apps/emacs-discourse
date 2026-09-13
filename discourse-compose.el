@@ -434,7 +434,9 @@
         (special-mode)
         (insert (propertize "Local Markdown preview\n\n" 'face 'bold))
         (appkit-markup-ui-insert-document
-         document :final-newline-p t :interactive-p nil)
+         document
+         :final-newline-p t
+         :interactive-p nil)
         (goto-char (point-min))))
     (pop-to-buffer buffer)))
 
@@ -599,8 +601,9 @@
        (buffer (current-buffer))
        (view (discourse-account-app discourse-compose-account))
        (owner
-        (appkit-compose-operation-begin 'submitting :generation
-                                        generation :label
+        (appkit-compose-operation-begin 'submitting
+                                        :generation generation
+                                        :label
                                         (if
                                             (eq discourse-compose-kind
                                                 'topic)
@@ -619,11 +622,14 @@
                     (lambda (result) (setq callback-ran-p t)
                       (discourse-compose--submit-callback buffer owner
                                                           result))
-                    :category-id (plist-get draft :category-id) :tags
-                    (plist-get draft :tags) :composer-open-duration
+                    :category-id (plist-get draft :category-id)
+                    :tags
+                    (plist-get draft :tags)
+                    :composer-open-duration
                     (plist-get draft :composer-open-duration)
                     :typing-duration
-                    (plist-get draft :typing-duration) :owner view))
+                    (plist-get draft :typing-duration)
+                    :owner view))
                   ('reply
                    (discourse-api-create-reply
                     discourse-compose-account
@@ -636,11 +642,13 @@
                     :composer-open-duration
                     (plist-get draft :composer-open-duration)
                     :typing-duration
-                    (plist-get draft :typing-duration) :owner view))))
+                    (plist-get draft :typing-duration)
+                    :owner view))))
           (when
               (and request (not callback-ran-p)
                    (appkit-compose-operation-current-p owner))
-            (appkit-compose-operation-update owner :cancel-function
+            (appkit-compose-operation-update owner
+                                             :cancel-function
                                              (lambda ()
                                                (discourse-compose--cancel-write
                                                 buffer owner request)))))
@@ -766,10 +774,9 @@
                                         account)))
                             (appkit-retire-handle handle))
                           nil t))
-              (appkit-compose-setup :snapshot-function
-                                    #'discourse-compose--snapshot
-                                    :state-change-function
-                                    #'discourse-compose--state-changed)
+              (appkit-compose-setup
+               :snapshot-function #'discourse-compose--snapshot
+               :state-change-function #'discourse-compose--state-changed)
               (add-hook 'after-change-functions
                         #'discourse-compose--track-typing t t)
               (add-hook 'kill-buffer-query-functions

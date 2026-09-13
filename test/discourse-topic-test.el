@@ -111,10 +111,12 @@
                 ((view (appkit-current-surface))
                  (state (appkit-surface-model view))
                  (failure
-                  (discourse-http-result-create :ok-p nil :failure
-                                                (discourse-http-failure-create
-                                                 :kind 'http :message
-                                                 "page failed"))))
+                  (discourse-http-result-create
+                   :ok-p nil
+                   :failure
+                   (discourse-http-failure-create
+                    :kind 'http
+                    :message "page failed"))))
               (setf (discourse-topic-state-stream state) '("91" "92")
                     (discourse-topic-state-loaded-p state) t
                     (discourse-topic-state-phase state) 'ready
@@ -229,7 +231,8 @@
               (prog1
                   (appkit-surface-send view
                                        (appkit-projection-change-create
-                                        :full-p t :frame-p t))
+                                        :full-p t
+                                        :frame-p t))
                 (discourse-test-drain account))
               (let
                   ((text
@@ -364,7 +367,8 @@
               (prog1
                   (appkit-surface-send view
                                        (appkit-projection-change-create
-                                        :full-p t :frame-p t))
+                                        :full-p t
+                                        :frame-p t))
                 (discourse-test-drain account))
               (goto-char (point-min)) (search-forward "Reply body")
               (should (discourse-topic-can-reply-p))

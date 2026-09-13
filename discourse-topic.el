@@ -298,7 +298,8 @@
           (and url
                (lambda ()
                  (discourse-media-open-image
-                  account url :owner view))))
+                  account url
+                  :owner view))))
          (card-context
           (appkit-media-card-context-create
            :payload value
@@ -399,7 +400,9 @@
            :face 'font-lock-comment-face))
          (start (point)))
     (appkit-chat-ins-insert-prefixed-line
-     provider :prefix prefix-state :face 'shadow)
+     provider
+     :prefix prefix-state
+     :face 'shadow)
     (appkit-chat-ins-insert-prefixed-line
      title
      :prefix prefix-state
@@ -408,7 +411,8 @@
      :help-echo (and url (format "Open %s" url)))
     (when description
       (appkit-chat-ins-insert-prefixed-line
-       description :prefix prefix-state))
+       description
+       :prefix prefix-state))
     (when image-url
       (let ((preview-start (point)))
         (if preview
@@ -565,7 +569,8 @@
                                (discourse-media-document-demands
                                 account (discourse-topic--document state post)))))
          (appkit-projection-row-create
-          :key id :payload post
+          :key id
+          :payload post
           :dependencies (append (delq nil (list (list :post id)
                                                 (and user-id (list :user user-id))))
                                 (mapcar #'appkit-resource-demand-key demands))
@@ -734,8 +739,7 @@
                                          view state)
                                         (discourse-runtime--post-surface view
                                                                          (appkit-projection-change-create
-                                                                          :frame-p
-                                                                          t))))
+                                                                          :frame-p t))))
                                     :owner view)))
 
 (defun discourse-topic--post-id-for-number (state post-number)
@@ -748,8 +752,8 @@
 (defun discourse-topic--focus-post-id (view post-id)
   "Move VIEW to stable POST-ID."
   (discourse-runtime--post-surface view
-                                   (appkit-projection-change-create :position
-                                                                    post-id))
+                                   (appkit-projection-change-create
+                                    :position post-id))
   (discourse-runtime--post-surface view
                                    (appkit-projection-change-create :full-p t)))
 
@@ -867,10 +871,9 @@
                                           (if (eq phase 'initial) 'first
                                             'preserve)))
         (discourse-runtime--post-surface view
-                                         (appkit-projection-change-create :full-p
-                                                                          t
-                                                                          :frame-p
-                                                                          t))
+                                         (appkit-projection-change-create
+                                          :full-p t
+                                          :frame-p t))
         (if (discourse-topic-state-target-post-number state)
             (discourse-topic--continue-target view state)
           (message "Loaded %d/%d Discourse posts"
@@ -880,9 +883,11 @@
     (error
      (discourse-topic--handle-error view state phase nil
                                     (discourse-http-result-create
-                                     :ok-p nil :failure
+                                     :ok-p nil
+                                     :failure
                                      (discourse-http-failure-create
-                                      :kind 'invalid-response :message
+                                      :kind 'invalid-response
+                                      :message
                                       (error-message-string error-data)))))))
 
 (defun discourse-topic--handle-post-page (view state requested posts)
@@ -923,18 +928,19 @@
                                          (appkit-projection-change-create
                                           :position 'preserve))
         (discourse-runtime--post-surface view
-                                         (appkit-projection-change-create :full-p
-                                                                          t
-                                                                          :frame-p
-                                                                          t))
+                                         (appkit-projection-change-create
+                                          :full-p t
+                                          :frame-p t))
         (when (discourse-topic-state-target-post-number state)
           (discourse-topic--continue-target view state)))
     (error
      (discourse-topic--handle-error view state 'posts requested
                                     (discourse-http-result-create
-                                     :ok-p nil :failure
+                                     :ok-p nil
+                                     :failure
                                      (discourse-http-failure-create
-                                      :kind 'invalid-response :message
+                                      :kind 'invalid-response
+                                      :message
                                       (error-message-string error-data)))))))
 
 (defun discourse-topic--next-post-ids (state)
@@ -1000,14 +1006,15 @@
                                                state)
                                               (discourse-topic-state-topic-id
                                                state)
-                                              post-ids resolve :owner
-                                              view)
+                                              post-ids resolve
+                                              :owner view)
                                            (discourse-api-topic
                                             (discourse-topic-state-account
                                              state)
                                             (discourse-topic-state-topic-id
                                              state)
-                                            resolve :owner view)))
+                                            resolve
+                                            :owner view)))
                                        (lambda (result)
                                          (if
                                              (discourse-http-result-ok-p
@@ -1155,13 +1162,18 @@ With TOPIC-LEVEL-P, compose an unscoped reply to the topic."
          (surface
           (or existing
               (appkit-open-generated-surface
-               discourse-topic--surface-type :app app :identity identity
+               discourse-topic--surface-type
+               :app app
+               :identity identity
                :buffer-name (format "*Discourse: %s · t/%s*"
                                     (discourse-account-origin account) topic-id)
                :input (discourse-topic-state-create
-                       :account account :topic-id topic-id :stream nil
+                       :account account
+                       :topic-id topic-id
+                       :stream nil
                        :loaded-ids (make-hash-table :test #'equal)
-                       :phase 'initial :target-post-number post-number))))
+                       :phase 'initial
+                       :target-post-number post-number))))
          (state (appkit-surface-model surface)))
     (unless existing (discourse-topic--setup surface))
     (when (and existing post-number)
@@ -1194,7 +1206,8 @@ With TOPIC-LEVEL-P, compose an unscoped reply to the topic."
 
 (defconst discourse-topic--surface-type
   (appkit-surface-type-create
-   :name 'discourse-topic :mode #'discourse-topic-mode
+   :name 'discourse-topic
+   :mode #'discourse-topic-mode
    :init #'discourse-runtime--surface-init
    :update #'discourse-runtime--surface-update
    :renderer-factory #'discourse-topic--renderer))

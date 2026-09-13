@@ -130,14 +130,16 @@
   "Return inline provider object KIND with DATA, FALLBACK, and STYLES."
   (appkit-markup-object
    (discourse-markup-provider-object-create
-    :kind kind :data (discourse-markup--object-data kind data))
+    :kind kind
+    :data (discourse-markup--object-data kind data))
    fallback styles))
 
 (defun discourse-markup--object-block (kind data fallback)
   "Return provider object block KIND with DATA and FALLBACK blocks."
   (appkit-markup-object-block
    (discourse-markup-provider-object-create
-    :kind kind :data (discourse-markup--object-data kind data))
+    :kind kind
+    :data (discourse-markup--object-data kind data))
    fallback))
 
 (defun discourse-markup--add-styles (nodes styles)
